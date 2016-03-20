@@ -35,8 +35,10 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
 
 import org.eclipse.jface.internal.text.html.BrowserInformationControl;
 import org.eclipse.jface.internal.text.html.HTMLPrinter;
@@ -845,7 +847,7 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 	@Override
 	public int getRelevance() {
 		if (fPatternMatchRule == SearchPattern.R_SUBSTRING_MATCH) {
-			return fRelevance - 1;
+			return fRelevance - 400;
 		}
 		return fRelevance;
 	}
@@ -907,7 +909,14 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 	 * @since 3.12
 	 */
 	protected int getPatternMatchRule(String pattern, String string) {
-		String start= string.substring(0, pattern.length());
+		String start;
+		try {
+			start= string.substring(0, pattern.length());
+		} catch (StringIndexOutOfBoundsException e) {
+			String message= "Error retrieving proposal text.\nDisplay string:\n" + string + "\nPattern:\n" + pattern; //$NON-NLS-1$//$NON-NLS-2$
+			JavaPlugin.log(new Status(IStatus.ERROR, JavaPlugin.getPluginId(), IStatus.OK, message, e));
+			return -1;
+		}
 		if (start.equalsIgnoreCase(pattern)) {
 			return SearchPattern.R_PREFIX_MATCH;
 		} else if (isCamelCaseMatching() && CharOperation.camelCaseMatch(pattern.toCharArray(), string.toCharArray())) {
@@ -1232,23 +1241,13 @@ public abstract class AbstractJavaCompletionProposal implements IJavaCompletionP
 	}
 
 	@Override
-	public StyledString emphasizeMatch(IDocument document, int offset, BoldStylerProvider boldStylerProvider) {
+	public StyledString getStyledDisplayString(IDocument document, int offset, BoldStylerProvider boldStylerProvider) {
 		StyledString styledDisplayString= new StyledString();
 		styledDisplayString.append(getStyledDisplayString());
 
 		String pattern= getPatternToEmphasizeMatch(document, offset);
 		if (pattern != null && pattern.length() > 0) {
 			String displayString= styledDisplayString.getString();
-			int index= displayString.indexOf('(');
-			if (index == -1) {
-				index= displayString.indexOf(':');
-				if (index == -1) {
-					index= displayString.indexOf('-');
-				}
-			}
-			if (index != -1) {
-				displayString= displayString.substring(0, index);
-			}
 			int patternMatchRule= getPatternMatchRule(pattern, displayString);
 			int[] matchingRegions= SearchPattern.getMatchingRegions(pattern, displayString, patternMatchRule);
 			Strings.markMatchingRegions(styledDisplayString, 0, matchingRegions, boldStylerProvider.getBoldStyler());

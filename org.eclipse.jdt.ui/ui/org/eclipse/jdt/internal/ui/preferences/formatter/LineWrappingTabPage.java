@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2000, 2015 IBM Corporation and others.
+ * Copyright (c) 2000, 2016 IBM Corporation and others.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -394,6 +394,16 @@ public class LineWrappingTabPage extends FormatterTabPage {
 	};
 
 
+	private final Category fForCategory= new Category(
+		DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_EXPRESSIONS_IN_FOR_LOOP_HEADER,
+		"class Example {\n" + //$NON-NLS-1$
+		"	void foo(int argument) {\n" + //$NON-NLS-1$
+		"		for (int counter = 0; counter < argument; counter++) {\n" + //$NON-NLS-1$
+		"			doSomething(counter);\n" + //$NON-NLS-1$
+		"		}}}\n", //$NON-NLS-1$
+		FormatterMessages.LineWrappingTabPage_for
+	);
+
 	private final Category fCompactIfCategory= new Category(
 	    DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_COMPACT_IF,
 	    "class Example {" + //$NON-NLS-1$
@@ -516,7 +526,7 @@ public class LineWrappingTabPage extends FormatterTabPage {
 
 	private final Category fConditionalExpressionCategory= new Category(
 	    DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_CONDITIONAL_EXPRESSION,
-	    "class Example extends AnotherClass {int Example(boolean Argument) {return argument ? 100000 : 200000;}}", //$NON-NLS-1$
+	    "class Example extends AnotherClass {int foo(boolean argument) {return argument ? 100000 : 200000;}}", //$NON-NLS-1$
 	    FormatterMessages.LineWrappingTabPage_conditionals
 	);
 
@@ -571,6 +581,31 @@ public class LineWrappingTabPage extends FormatterTabPage {
 		    "s = \"TextTextText\";}}", //$NON-NLS-1$
 	        FormatterMessages.LineWrappingTabPage_assignment_alignment
 		);
+
+	private final Category fParameterizedTypeReference= new Category(
+		DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_PARAMETERIZED_TYPE_REFERENCES,
+		"class Example {\n" +  //$NON-NLS-1$
+		"	Map<String, ? extends java.lang.Object> map = new HashMap<String, java.lang.Object>();\n" +  //$NON-NLS-1$
+		"}", //$NON-NLS-1$
+		FormatterMessages.LineWrappingTabPage_param_type_ref
+	);
+
+	private final Category fTypeArguments= new Category(
+		DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_TYPE_ARGUMENTS,
+		"class Example {\n" +  //$NON-NLS-1$
+		"	void foo(Some someArgument) {\n" +  //$NON-NLS-1$
+		"		someArgument.<String, SomeElement, Example>bar();\n" +  //$NON-NLS-1$
+		"	}\n" +  //$NON-NLS-1$
+		"}", //$NON-NLS-1$
+		FormatterMessages.LineWrappingTabPage_type_arguments
+	);
+	
+	private final Category fTypeParameters= new Category(
+		DefaultCodeFormatterConstants.FORMATTER_ALIGNMENT_FOR_TYPE_PARAMETERS,
+		"class Example<S, T extends Element & List, U> {\n" + //$NON-NLS-1$
+		"}\n", //$NON-NLS-1$
+		FormatterMessages.LineWrappingTabPage_type_parameters
+	);
 
 	/**
 	 * The default preview line width.
@@ -692,9 +727,15 @@ public class LineWrappingTabPage extends FormatterTabPage {
 		expressions.children.add(fAssignmentCategory);
 
 		final Category statements= new Category(FormatterMessages.LineWrappingTabPage_statements);
+		statements.children.add(fForCategory);
 		statements.children.add(fCompactIfCategory);
 		statements.children.add(fTryCategory);
 		statements.children.add(fCatchCategory);
+
+		final Category parameterizedTypes= new Category(FormatterMessages.LineWrappingTabPage_parameterized_types);
+		parameterizedTypes.children.add(fParameterizedTypeReference);
+		parameterizedTypes.children.add(fTypeArguments);
+		parameterizedTypes.children.add(fTypeParameters);
 
 		final List<Category> root= new ArrayList<>();
 		root.add(annotations);
@@ -705,6 +746,7 @@ public class LineWrappingTabPage extends FormatterTabPage {
 		root.add(functionCalls);
 		root.add(expressions);
 		root.add(statements);
+		root.add(parameterizedTypes);
 
 		return root;
 	}
