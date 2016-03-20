@@ -123,6 +123,19 @@ public class CoreTestSearchEngine {
 		return false;
 	}
 
+	public static boolean hasJUnit5TestAnnotation(IJavaProject project) {
+		try {
+			if (project != null) {
+				IType type= project.findType(JUnitCorePlugin.JUNIT5_ANNOTATION_NAME);
+				// TODO don't worry about the classpath container for now
+			    return (type != null);
+			}
+		} catch (JavaModelException e) {
+			// not available
+		}
+		return false;
+	}
+
 	public static boolean isTestImplementor(IType type) throws JavaModelException {
 		ITypeHierarchy typeHier= type.newSupertypeHierarchy(null);
 		IType[] superInterfaces= typeHier.getAllInterfaces();

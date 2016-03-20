@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="/org.junit.gen5/lib/junit-commons-5.0.0-ALPHA.jar"/>
+	<classpathentry kind="lib" path="/org.junit.gen5/lib/junit-engine-api-5.0.0-ALPHA.jar" sourcepath="/home/hwellmann/.m2/repository/org/junit/junit-engine-api/5.0.0-ALPHA/junit-engine-api-5.0.0-ALPHA-sources.jar"/>
+	<classpathentry kind="lib" path="/org.junit.gen5/lib/junit-launcher-5.0.0-ALPHA.jar" sourcepath="/home/hwellmann/.m2/repository/org/junit/junit-launcher/5.0.0-ALPHA/junit-launcher-5.0.0-ALPHA-sources.jar"/>
+	<classpathentry kind="lib" path="/org.junit.gen5/lib/junit5-api-5.0.0-ALPHA.jar"/>
+	<classpathentry kind="lib" path="/org.junit.gen5/lib/junit5-engine-5.0.0-ALPHA.jar"/>
+	<classpathentry kind="lib" path="/org.junit.gen5/lib/opentest4j-1.0.0-ALPHA.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

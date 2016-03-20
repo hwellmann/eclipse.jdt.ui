@@ -672,7 +672,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 		fMethodsCache= methodNames;
 		fMethodsCacheKey= methodsCacheKey;
 
-		boolean isJUnit4= TestKindRegistry.JUNIT4_TEST_KIND_ID.equals(testKind.getId());
+		boolean isJUnit3= TestKindRegistry.JUNIT3_TEST_KIND_ID.equals(testKind.getId());
 
 		while (type != null) {
 			IMethod[] methods= type.getMethods();
@@ -684,7 +684,7 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 						method.getElementName().startsWith("test")) { //$NON-NLS-1$
 					methodNames.add(method.getElementName());
 				}
-				if (isJUnit4) {
+				if (!isJUnit3) {
 					IAnnotation annotation= method.getAnnotation("Test"); //$NON-NLS-1$
 					if (annotation.exists()) {
 						methodNames.add(method.getElementName());
@@ -895,18 +895,20 @@ public class JUnitLaunchConfigurationTab extends AbstractLaunchConfigurationTab 
 	}
 
 	private void validateJavaProject(IJavaProject javaProject) {
-		if (! CoreTestSearchEngine.hasTestCaseType(javaProject)) {
+		TestKind testKind = getSelectedTestKind();
+		if (testKind == null) {
+			return;
+		}
+		if (! TestKindRegistry.JUNIT5_TEST_KIND_ID.equals(testKind.getId()) && ! CoreTestSearchEngine.hasTestCaseType(javaProject)) {
 			setErrorMessage(JUnitMessages.JUnitLaunchConfigurationTab_error_testcasenotonpath);
 			return;
 		}
-		TestKind testKind = getSelectedTestKind();
-		if (testKind != null && TestKindRegistry.JUNIT4_TEST_KIND_ID.equals(testKind.getId())) {
+		if (TestKindRegistry.JUNIT4_TEST_KIND_ID.equals(testKind.getId())) {
 			if (! CoreTestSearchEngine.hasTestAnnotation(javaProject)) {
 				setErrorMessage(JUnitMessages.JUnitLaunchConfigurationTab_error_testannotationnotonpath);
 				return;
 			}
 		}
-
 	}
 
 	private void validateTestLoaderJVM() {
