@@ -1,6 +1,6 @@
 # JUnit 5 Support for Eclipse
 
-This is a fork of the Eclipse JDT project with experimental support for (JUnit 5)[https://github.com/junit-team/junit5], currently based on JUnit 5.0.0-ALPHA.
+This is a fork of the Eclipse JDT project with experimental support for [JUnit 5](https://github.com/junit-team/junit5), currently based on JUnit 5.0.0-ALPHA.
 
 This project supports a command line build with Maven and Tycho, and an interactive build in Eclipse, using a largely automatic setup with Oomph.
 
@@ -34,30 +34,30 @@ mvn install -DskipTests -Pbuild-individual-bundles
 * Click on the Plus icon to add a user project.
 * Select Catalog Github Projects
 * Click on *Browse File System* and select `JDTWithJUnit5.setup` from your local clone of the `org.junit.gen5` repository.
-* Click OK. In the Projects tree you should now see an entry *JDT with JUnit 5* under *Github Projects | <User>*.
-* Open this entry and select the subitems *UI* and *UI | Tests*
-* Click *Next*. The *Variables* panel opens.
-* Click on *Show all variables*.
-* For the two Github repositories, open the dropdown and make sure that *HTTPS (anonymous access) is selected.
-* Click *Next*. The *Confirmation* panel opens.
-* Click *Finish*. Oomph will start downloading Eclipse components.
-* After a while, a dialog appears *Do you trust these certificates?* Active the checkbox and click *OK*.
-* Click *Finish* to close the installer and wait for your new Eclipse installation to open.
-* Close the *Welcome* view.
+* Click OK. In the Projects tree you should now see an entry **JDT with JUnit 5** under **Github Projects | <User>**.
+* Open this entry and select the subitems **UI** and **UI | Tests**
+* Click **Next**. The **Variables** panel opens.
+* Click on **Show all variables**.
+* For the two Github repositories, open the dropdown and make sure that **HTTPS (anonymous access)** is selected.
+* Click **Next**. The **Confirmation** panel opens.
+* Click **Finish**. Oomph will start downloading Eclipse components.
+* After a while, a dialog appears **Do you trust these certificates?** Active the checkbox and click **OK**.
+* Click **Finish** to close the installer and wait for your new Eclipse installation to open.
+* Close the **Welcome** view.
 * Click on the rotating arrows at the bottom to monitor further setup tasks.
 * Cloning the forked JDT repository will take a while.
-* Wait for the setup to complete and click *Finish* to close the setup dialog.
+* Wait for the setup to complete and click **Finish** to close the setup dialog.
 * Your workspace now contains a project `org.junit.gen5` with an error marker.
 * Open a shell, go to the root directory of that project and run `mvn install`.
 * Refresh the project (F5). All error markers should disappear.
 
 ## Run Eclipse with JUnit 5 support
 
-* Select the `org.junit.gen5` project and execute *Run As | Eclipse Application* from the context menu.
+* Select the `org.junit.gen5` project and execute **Run As | Eclipse Application** from the context menu.
 * Wait for Eclipse Neon to open.
 * Switch to the Java perspective.
-* Import the `junit5-demo` project from `org.junit.gen5/projects` via *File | Import... | General | Existing Projects into Workspace*.
-* Select a class or package from that project and execute *Run As | JUnit Test* from the context menu.
+* Import the `junit5-demo` project from `org.junit.gen5/projects` via **File | Import... | General | Existing Projects into Workspace**.
+* Select a class or package from that project and execute **Run As | JUnit Test** from the context menu.
 _____
 
 Contributing to JDT UI - Java development tools UI
